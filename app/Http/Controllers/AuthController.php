@@ -15,7 +15,8 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-
+        $this->middleware('jwt', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout']]);
     }
 
     public function login()
@@ -44,6 +45,30 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Successfully logged out'
         ]);
+    }
+
+    public function authorized(){
+        $user = User::findOrFail(auth()->user()->getAuthIdentifier());
+        $payload = [
+            'userId' => $user->id,
+            'roleId' => $user->role_id,
+            'authMenu' => [
+                [
+                    'name' => 'Dashboard',
+                    'path' => '/dashboard'
+                ],
+                [
+                    'name' => 'Mandor',
+                    'path' => '/mandor'
+                ],
+                [
+                    'name' => 'Anggota',
+                    'path' => '/anggota'
+                ],
+            ]
+        ];
+
+        return $this->responseWithoutToken($payload);
     }
 
     public function generate()
