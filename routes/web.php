@@ -26,25 +26,26 @@ $router->get('/generate', 'AuthController@generate');
 $router->group([
     'prefix' => 'api'
 ], function () use ($router){
+    $router->get('/generate', 'AuthController@generate');
     $router->post('login', 'AuthController@login');
-     $router->post('authorized', 'AuthController@authorized');
-    // $router->post('me', 'AuthController@me');
+    $router->post('authorized', 'AuthController@authorized');
+    $router->post('me', 'AuthController@me');
     $router->post('logout', 'AuthController@logout');
 
-    // $router->group([
-    //     'prefix' => 'page'
-    // ], function () use ($router){
-    //     $router->get('/user', 'PageController@user'); // Bebug
-    //     $router->post('/user', 'PageController@user');
-    // });
+    $router->group([
+        'prefix' => 'page'
+    ], function () use ($router){
+        $router->get('/user', 'PageController@user'); // Bebug
+        $router->post('/user', 'PageController@user');
+    });
 
-    // $router->group([
-    //     'prefix' => 'user'
-    // ], function () use ($router){
-    //     $router->get('/', 'UserController@index');
-    //     $router->get('/form', 'UserController@form');
-    //     $router->post('/form', 'UserController@store');
-    // });
+    $router->group([
+        'prefix' => 'user'
+    ], function () use ($router){
+        $router->get('/', 'UserController@index');
+        $router->get('/form', 'UserController@form');
+        $router->post('/form', 'UserController@store');
+        $router->put('/form', 'UserController@update');
+        $router->delete('/form', 'UserController@destroy');
+    });
 });
-
-

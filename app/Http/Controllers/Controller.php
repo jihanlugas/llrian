@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Cookie;
 
@@ -21,7 +20,7 @@ class Controller extends BaseController
 //               'Access-Control-Expose-Headers' => 'Set-Cookie',
 //               'Set-Cookie' => 'Authorization=' . 'Bearer ' . $newToken,
            ])
-           ->withCookie(Cookie::create('Authorization', 'Bearer ' . $newToken, time() * (60 * env('JWT_TTL', 60))))
+           ->withCookie(Cookie::create('Authorization', 'Bearer ' . $newToken, time() * (60 * env('JWT_TTL', 5))))
            ;
     }
 

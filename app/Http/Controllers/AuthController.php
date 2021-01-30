@@ -6,6 +6,10 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Library\Jwt;
 
+use Symfony\Component\HttpFoundation\Cookie;
+//use Illuminate\Support\Facades\Cookie;
+
+
 class AuthController extends Controller
 {
     /**
@@ -15,13 +19,12 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('jwt', ['except' => ['login']]);
-        $this->middleware('auth:api', ['except' => ['login', 'logout']]);
+        $this->middleware('jwt', ['except' => ['login', 'generate']]);
+        $this->middleware('auth:api', ['except' => ['login', 'logout', 'generate']]);
     }
 
     public function login()
     {
-
         $credentials = request(['email', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
@@ -38,15 +41,6 @@ class AuthController extends Controller
         return $this->responseWithToken($payload);
     }
 
-    public function logout()
-    {
-        auth()->logout();
-        return response()->json([
-            'success' => true,
-            'message' => 'Successfully logged out'
-        ]);
-    }
-
     public function authorized(){
         $user = User::findOrFail(auth()->user()->getAuthIdentifier());
         $payload = [
@@ -55,20 +49,32 @@ class AuthController extends Controller
             'authMenu' => [
                 [
                     'name' => 'Dashboard',
-                    'path' => '/dashboard'
+                    'path' => '/dashboard',
+                    'icon' => ['fas', 'chart-line'],
                 ],
                 [
-                    'name' => 'Mandor',
-                    'path' => '/mandor'
-                ],
-                [
-                    'name' => 'Anggota',
-                    'path' => '/anggota'
+                    'name' => 'User',
+                    'path' => '/users',
+                    'icon' => ['fas', 'users'],
                 ],
             ]
         ];
 
         return $this->responseWithoutToken($payload);
+    }
+
+    public function me()
+    {
+        return response()->json(auth()->user());
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully logged out'
+        ])->withCookie(Cookie::create('Authorization', ''));
     }
 
     public function generate()
@@ -77,7 +83,7 @@ class AuthController extends Controller
         $users->email = 'jihanlugas2@gmail.com';
         $users->name = 'Jihan Lugas';
         $users->password = Hash::make('123456');
-        $users->gender = 'Laki Laki';
+        $users->gender = 'MALE';
         $users->role_id = 1;
         $users->save();
 
