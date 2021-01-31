@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class UserController extends Controller
+class MandorController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -58,7 +58,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->gender = $request->gender;
-            $user->role_id = $request->roleId;
+            $user->role_id = User::ROLE_MANDOR;
             $user->password = Hash::make('123456');
             $user->save();
 
@@ -77,7 +77,7 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->gender = $request->gender;
-            $user->role_id = $request->roleId;
+            $user->role_id = User::ROLE_MANDOR;
             $user->save();
 
             DB::commit();

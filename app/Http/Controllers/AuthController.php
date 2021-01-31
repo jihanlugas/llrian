@@ -53,8 +53,13 @@ class AuthController extends Controller
                     'icon' => ['fas', 'chart-line'],
                 ],
                 [
-                    'name' => 'User',
-                    'path' => '/users',
+                    'name' => 'Mandor',
+                    'path' => '/mandor',
+                    'icon' => ['fas', 'user'],
+                ],
+                [
+                    'name' => 'Anggota',
+                    'path' => '/anggota',
                     'icon' => ['fas', 'users'],
                 ],
             ]

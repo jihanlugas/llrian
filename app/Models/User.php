@@ -19,6 +19,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
+
+    const ROLE_ADMIN = 1;
+    const ROLE_MANDOR = 2;
+    const ROLE_ANGGOTA = 3;
+
+
     protected $fillable = [
         'name', 'email',
     ];

@@ -35,17 +35,37 @@ $router->group([
     $router->group([
         'prefix' => 'page'
     ], function () use ($router){
-        $router->get('/user', 'PageController@user'); // Bebug
-        $router->post('/user', 'PageController@user');
+        $router->get('/mandor', 'PageController@mandor'); // Bebug
+
+        $router->post('/mandor', 'PageController@mandor');
+        $router->post('/anggota', 'PageController@anggota');
     });
 
     $router->group([
-        'prefix' => 'user'
+        'prefix' => 'raw'
     ], function () use ($router){
-        $router->get('/', 'UserController@index');
-        $router->get('/form', 'UserController@form');
-        $router->post('/form', 'UserController@store');
-        $router->put('/form', 'UserController@update');
-        $router->delete('/form', 'UserController@destroy');
+        $router->get('/mandor', 'RawController@mandor'); // Bebug
+
+        $router->post('/mandor', 'RawController@mandor');
+    });
+
+    $router->group([
+        'prefix' => 'mandor'
+    ], function () use ($router){
+        $router->get('/', 'MandorController@index');
+        $router->get('/form', 'MandorController@form');
+        $router->post('/form', 'MandorController@store');
+        $router->put('/form', 'MandorController@update');
+        $router->delete('/form', 'MandorController@destroy');
+    });
+
+    $router->group([
+        'prefix' => 'anggota'
+    ], function () use ($router){
+        $router->get('/', 'AnggotaController@index');
+        $router->get('/form', 'AnggotaController@form');
+        $router->post('/form', 'AnggotaController@store');
+        $router->put('/form', 'AnggotaController@update');
+        $router->delete('/form', 'AnggotaController@destroy');
     });
 });
