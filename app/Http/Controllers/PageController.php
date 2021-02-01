@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Project;
 use Illuminate\Support\Facades\Hash;
 use App\Library\Jwt;
 
@@ -31,22 +32,22 @@ class PageController extends Controller
 
         $query = User::query();
         $query->where('role_id','=', User::ROLE_MANDOR);
-        $users = $query->paginate(5, '*', 'page', $page);
+        $allData = $query->paginate(5, '*', 'page', $page);
 
         $payload = [];
 
-        $payload['page'] = $users->currentPage();
-        $payload['dataPerPage'] = $users->perPage();
-        $payload['totalData'] = $users->total();
+        $payload['page'] = $allData->currentPage();
+        $payload['dataPerPage'] = $allData->perPage();
+        $payload['totalData'] = $allData->total();
         $payload['totalPage'] = ceil($payload['totalData'] / $payload['dataPerPage']);
         $payload['list'] = [];
-        foreach ($users as $key => $user){
+        foreach ($allData as $key => $data){
             $payload['list'][] = [
-                'userId' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'gender' => $user->gender,
-                'roleId' => $user->role_id,
+                'userId' => $data->id,
+                'name' => $data->name,
+                'email' => $data->email,
+                'gender' => $data->gender,
+                'roleId' => $data->role_id,
             ];
         }
         return $this->responseWithoutToken($payload);
@@ -60,22 +61,49 @@ class PageController extends Controller
 
         $query = User::query();
         $query->where('role_id','=', User::ROLE_ANGGOTA);
-        $users = $query->paginate(5, '*', 'page', $page);
+        $allData = $query->paginate(5, '*', 'page', $page);
 
         $payload = [];
 
-        $payload['page'] = $users->currentPage();
-        $payload['dataPerPage'] = $users->perPage();
-        $payload['totalData'] = $users->total();
+        $payload['page'] = $allData->currentPage();
+        $payload['dataPerPage'] = $allData->perPage();
+        $payload['totalData'] = $allData->total();
         $payload['totalPage'] = ceil($payload['totalData'] / $payload['dataPerPage']);
         $payload['list'] = [];
-        foreach ($users as $key => $user){
+        foreach ($allData as $key => $data){
             $payload['list'][] = [
-                'userId' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'gender' => $user->gender,
-                'roleId' => $user->role_id,
+                'userId' => $data->id,
+                'name' => $data->name,
+                'email' => $data->email,
+                'gender' => $data->gender,
+                'roleId' => $data->role_id,
+            ];
+        }
+        return $this->responseWithoutToken($payload);
+    }
+
+    public function project()
+    {
+        $page = request('page');        // number
+        $sort = request('sort');        // Array
+        $filters = request('filters');    // Array
+
+        $query = Project::query();
+        $allData = $query->paginate(5, '*', 'page', $page);
+
+        $payload = [];
+
+        $payload['page'] = $allData->currentPage();
+        $payload['dataPerPage'] = $allData->perPage();
+        $payload['totalData'] = $allData->total();
+        $payload['totalPage'] = ceil($payload['totalData'] / $payload['dataPerPage']);
+        $payload['list'] = [];
+        foreach ($allData as $key => $data){
+            $payload['list'][] = [
+                'projectId' => $data->id,
+                'name' => $data->name,
+                'address' => $data->address,
+                'userId' => $data->user_id,
             ];
         }
         return $this->responseWithoutToken($payload);

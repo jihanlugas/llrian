@@ -62,6 +62,11 @@ class AuthController extends Controller
                     'path' => '/anggota',
                     'icon' => ['fas', 'users'],
                 ],
+                [
+                    'name' => 'Project',
+                    'path' => '/project',
+                    'icon' => ['fas', 'project-diagram'],
+                ],
             ]
         ];
 

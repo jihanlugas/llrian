@@ -39,6 +39,7 @@ $router->group([
 
         $router->post('/mandor', 'PageController@mandor');
         $router->post('/anggota', 'PageController@anggota');
+        $router->post('/project', 'PageController@project');
     });
 
     $router->group([
@@ -67,5 +68,15 @@ $router->group([
         $router->post('/form', 'AnggotaController@store');
         $router->put('/form', 'AnggotaController@update');
         $router->delete('/form', 'AnggotaController@destroy');
+    });
+
+    $router->group([
+        'prefix' => 'project'
+    ], function () use ($router){
+        $router->get('/', 'ProjectController@index');
+        $router->get('/form', 'ProjectController@form');
+        $router->post('/form', 'ProjectController@store');
+        $router->put('/form', 'ProjectController@update');
+        $router->delete('/form', 'ProjectController@destroy');
     });
 });
