@@ -24,6 +24,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     const ROLE_MANDOR = 2;
     const ROLE_ANGGOTA = 3;
 
+    public function mandor()
+    {
+        return $this->belongsTo('App\Models\User', 'mandor_id', 'id');
+    }
+
 
     protected $fillable = [
         'name', 'email',

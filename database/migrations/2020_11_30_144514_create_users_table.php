@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password', 255);
             $table->string('gender', 50)->default('');
             $table->foreignId('role_id')->default(0);
+            $table->foreignId('mandor_id')->default(0);
             $table->timestamps();
         });
 
@@ -31,6 +32,7 @@ class CreateUsersTable extends Migration
         $user->gender = 'MALE';
         $user->role_id = 1;
         $user->password = Hash::make('123456');
+        $user->mandor_id = 0;
         $user->save();
     }
 

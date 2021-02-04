@@ -9,6 +9,7 @@ use App\Library\Jwt;
 use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Tymon\JWTAuth\Contracts\Providers\Auth;
 
 
 class AnggotaController extends Controller
@@ -24,8 +25,6 @@ class AnggotaController extends Controller
         $this->middleware('auth:api');
     }
 
-
-
     public function form(){
         $id = request('id');
         $user = User::find($id);
@@ -37,6 +36,7 @@ class AnggotaController extends Controller
                 'email' => $user->email,
                 'gender' => $user->gender,
                 'roleId' => $user->role_id,
+                'mandorId' => $user->mandor_id,
             ];
         }else{
             $payload['form'] = [
@@ -45,6 +45,7 @@ class AnggotaController extends Controller
                 'email' => "",
                 'gender' => "",
                 'roleId' => 0,
+                'mandorId' => 0
             ];
         }
 
@@ -60,6 +61,7 @@ class AnggotaController extends Controller
             $user->gender = $request->gender;
             $user->role_id = User::ROLE_ANGGOTA;
             $user->password = Hash::make('123456');
+            $user->mandor_id = $this->isAdmin() ? $request->mandorId : auth()->user()->getAuthIdentifier();
             $user->save();
 
             DB::commit();
@@ -78,6 +80,7 @@ class AnggotaController extends Controller
             $user->email = $request->email;
             $user->gender = $request->gender;
             $user->role_id = User::ROLE_ANGGOTA;
+            $user->mandor_id = $this->isAdmin() ? $request->mandorId : auth()->user()->getAuthIdentifier();
             $user->save();
 
             DB::commit();
@@ -101,9 +104,4 @@ class AnggotaController extends Controller
             dd($e);
         }
     }
-
-//    private function saveData(){
-//
-//    }
-
 }

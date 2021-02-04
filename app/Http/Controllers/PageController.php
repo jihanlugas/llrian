@@ -77,6 +77,8 @@ class PageController extends Controller
                 'email' => $data->email,
                 'gender' => $data->gender,
                 'roleId' => $data->role_id,
+                'mandorId' => $data->mandor_id,
+                'mandor' => $data->mandor->name,
             ];
         }
         return $this->responseWithoutToken($payload);
@@ -104,6 +106,7 @@ class PageController extends Controller
                 'name' => $data->name,
                 'address' => $data->address,
                 'userId' => $data->user_id,
+                'mandor' => $data->user->name,
             ];
         }
         return $this->responseWithoutToken($payload);

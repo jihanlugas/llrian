@@ -43,10 +43,9 @@ class AuthController extends Controller
 
     public function authorized(){
         $user = User::findOrFail(auth()->user()->getAuthIdentifier());
-        $payload = [
-            'userId' => $user->id,
-            'roleId' => $user->role_id,
-            'authMenu' => [
+        $authMenu = [];
+        if ($user->role_id == User::ROLE_ADMIN){
+            $authMenu = [
                 [
                     'name' => 'Dashboard',
                     'path' => '/dashboard',
@@ -67,7 +66,34 @@ class AuthController extends Controller
                     'path' => '/project',
                     'icon' => ['fas', 'project-diagram'],
                 ],
-            ]
+            ];
+        } else if($user->role_id == User::ROLE_MANDOR) {
+            $authMenu = [
+                [
+                    'name' => 'Dashboard',
+                    'path' => '/dashboard',
+                    'icon' => ['fas', 'chart-line'],
+                ],
+                [
+                    'name' => 'Anggota',
+                    'path' => '/anggota',
+                    'icon' => ['fas', 'users'],
+                ],
+            ];
+        } else if($user->role_id == User::ROLE_ANGGOTA) {
+            $authMenu = [
+                [
+                    'name' => 'Dashboard',
+                    'path' => '/dashboard',
+                    'icon' => ['fas', 'chart-line'],
+                ],
+            ];
+        }
+
+        $payload = [
+            'userId' => $user->id,
+            'roleId' => $user->role_id,
+            'authMenu' => $authMenu,
         ];
 
         return $this->responseWithoutToken($payload);
