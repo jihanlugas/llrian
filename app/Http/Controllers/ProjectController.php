@@ -23,8 +23,6 @@ class ProjectController extends Controller
         $this->middleware('auth:api');
     }
 
-
-
     public function form(){
         $id = request('id');
         $project = Project::find($id);
