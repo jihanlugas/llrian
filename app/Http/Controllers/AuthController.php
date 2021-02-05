@@ -19,6 +19,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('cors');
         $this->middleware('jwt', ['except' => ['login', 'generate']]);
         $this->middleware('auth:api', ['except' => ['login', 'logout', 'generate']]);
     }
